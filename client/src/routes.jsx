@@ -1,7 +1,7 @@
 import App from "./components/App";
 import Error from "./components/pages/Error";
 import Home from "./components/pages/Home";
-// import About from "./components/About";
+import AboutUs from "./components/pages/AboutUs";
 import Schedule from "./components/pages/Schedule";
 // import ContactUs from "./components/ContactUs";
 import BlogArchive from "./components/pages/BlogArchive";
@@ -13,7 +13,7 @@ const routes = [
         errorElement: <Error/>,   
         children: [
             { index: true, element: <Home /> },
-            // { path: "/about", element: <About /> },
+            { path: "/about-us", element: <AboutUs /> },
             { path: "/schedule", element: <Schedule /> },
             // { path: "/contact-us", element: <ContactUs /> },
             { path: "/blog-archive", element: <BlogArchive /> },
