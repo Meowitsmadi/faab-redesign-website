@@ -3,7 +3,7 @@ import Error from "./components/pages/Error";
 import Home from "./components/pages/Home";
 import AboutUs from "./components/pages/AboutUs";
 import Schedule from "./components/pages/Schedule";
-// import ContactUs from "./components/ContactUs";
+import Contact from "./components/pages/Contact";
 import BlogArchive from "./components/pages/BlogArchive";
 
 const routes = [
@@ -15,7 +15,7 @@ const routes = [
             { index: true, element: <Home /> },
             { path: "/about-us", element: <AboutUs /> },
             { path: "/schedule", element: <Schedule /> },
-            // { path: "/contact-us", element: <ContactUs /> },
+            { path: "/contact", element: <Contact /> },
             { path: "/blog-archive", element: <BlogArchive /> },
             // BELOW IS PLACEHOLDER. NOT SURE IF WE'RE COMBINING PICS + VIDS
             // { path: "/gallery", element: <Gallery /> }, 

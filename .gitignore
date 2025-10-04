@@ -1,0 +1,4 @@
+venv
+env
+server/.env
+server/client_secret.json
