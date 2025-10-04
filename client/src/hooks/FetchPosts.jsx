@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;;
+
 // Hook to fetch and return products from our django API.
-export const useProducts = () => {
+export const usePosts = () => {
     const [posts, setPosts] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         let ignore = false;
-        // TODO: placeholder fetch link 
-        fetch('/api/', { mode: "cors" })
+        fetch(`${API_BASE_URL}/blog/posts`, { mode: "cors" })
           .then((response) => {
             if (response.status >= 400) {
                 throw new Error("server error");
