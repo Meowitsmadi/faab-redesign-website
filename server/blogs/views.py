@@ -1,11 +1,15 @@
 from django.shortcuts import render
-from django.conf import settings
 from django.shortcuts import redirect
+from django.utils import timezone
+from rest_framework.permissions import *
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+from bs4 import BeautifulSoup
+from google.auth.transport.requests import Request
 import os
 import requests
 import json
@@ -22,6 +26,22 @@ REDIRECT_URI = 'http://127.0.0.1:8000/blog/oauth2callback/'
 def get_google_oauth():
     return Flow.from_client_secrets_file(CLIENT_SECRET, scopes=SCOPES, redirect_uri=REDIRECT_URI)
 
+def get_blogger_creds(user):
+    creds = Credentials(
+        token=user.blogger_acc_token,
+        refresh_token=user.blogger_ref_token,
+        token_uri='https://oauth2.googleapis.com/token',
+        client_secret=CLIENT_SECRET,
+        scopes=['https://www.googleapis.com/auth/blogger']
+    )
+    if creds.refresh_token or creds.expired:
+        creds.refresh(Request())
+        user.blogger_acc_token = creds.token
+        user.blogger_expiry = timezone.make_aware(creds.expiry)
+        user.save()
+    
+    return creds
+
 # sends user to google sign in page & authenticates account
 class AuthView(APIView):
     def get(self, request):
@@ -36,41 +56,54 @@ class AuthView(APIView):
 # redirects to the create post page after user is authorized
 class GoogleOAuthView(APIView):
     def get(self, request):
-        state = request.session['state']
         flow = get_google_oauth()
         flow.fetch_token(authorization_response=request.build_absolute_uri())
         credentials = flow.credentials
-        request.session['credentials'] = {
-            'token': credentials.token,
-            'refresh_token': credentials.refresh_token,
-            'token_uri': credentials.token_uri,
-            'client_id': credentials.client_id,
-            'client_secret': credentials.client_secret,
-            'scopes': credentials.scopes
-        }
+        
+        # Save blogger auth info with user in DB
+        user = request.user
+        user.blogger_acc_token = credentials.token
+        user.blogger_ref_token = credentials.refresh_token
+        user.blogger_expiry = timezone.make_aware(credentials.expiry)
+        user.save()
+
         return redirect('/blog/create/') # change later on to the admin view to create post
 
 # Displays all posts from a blog using the blog id
 class DisplayAllPostsView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         service = build("blogger", "v3", developerKey=API_KEY)
 
         posts = service.posts().list(blogId=BLOG_ID, maxResults=5).execute()
-        return Response([
-                {"title": post.get("title"), "content": post.get("content")}
-                for post in posts.get("items", [])
-        ])
+        result = []
+        for post in posts.get("items", []):
+            content_html = post.get("content", "")
+            # Parse HTML and extract text
+            content_text = BeautifulSoup(content_html, "html.parser").get_text()
+            result.append({
+                "id": post.get("id"),
+                "title": post.get("title"),
+                "content": content_text,
+            })
+
+        return Response(result)
 
 # Creates a post with a title and content
 class CreateBlogPostView(APIView):
+    # Only users logged into the admin view AND user.is_staff = True can post blogs
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+
     def post(self, request):
-        credentials = request.session.get("credentials")
+        user = request.user
+        credentials = get_blogger_creds(user)
+
         if not credentials:
             return redirect("/blog/auth/")
 
-        creds = Credentials(**credentials)
-        service = build("blogger", "v3", credentials=creds)
-
+        service = build("blogger", "v3", credentials=credentials)
         title = request.data.get("title", "Untitled")
         content = request.data.get("content", "")
 
@@ -84,7 +117,7 @@ class CreateBlogPostView(APIView):
             post = service.posts().insert(blogId=BLOG_ID, body=body).execute()
         except Exception as e:
             return Response({"error": str(e)}, status=400)
-        return Response({"status": "success", "post": post})
+        return Response({"status": "success", "post": post}, status=201)
     
 # class SearchForPostView(APIView):
 

@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { ShopContext } from "./App";
+import ShopContext from './ShopContext'; 
 import BlogPost from './BlogPost';
 
 export default function Posts() {
