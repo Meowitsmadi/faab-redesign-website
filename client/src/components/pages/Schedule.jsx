@@ -1,6 +1,6 @@
 import React from "react";
 import useCalendar from "../../hooks/useCalendar";
-import "../../styles/schedule.css";
+//import "../../styles/schedule.css";
 
 export default function Schedule() {
   const { events, loading, error } = useCalendar();
