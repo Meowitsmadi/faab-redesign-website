@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
+from bs4 import BeautifulSoup
 import os
 import requests
 import json
@@ -56,10 +57,18 @@ class DisplayAllPostsView(APIView):
         service = build("blogger", "v3", developerKey=API_KEY)
 
         posts = service.posts().list(blogId=BLOG_ID, maxResults=5).execute()
-        return Response([
-                {"title": post.get("title"), "content": post.get("content")}
-                for post in posts.get("items", [])
-        ])
+        result = []
+        for post in posts.get("items", []):
+            content_html = post.get("content", "")
+            # Parse HTML and extract text
+            content_text = BeautifulSoup(content_html, "html.parser").get_text()
+            result.append({
+                "id": post.get("id"),
+                "title": post.get("title"),
+                "content": content_text,
+            })
+
+        return Response(result)
 
 # Creates a post with a title and content
 class CreateBlogPostView(APIView):
