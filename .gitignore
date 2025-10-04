@@ -1,4 +1,9 @@
-venv
+venv/
 env
+node_modules/
+dist/
 server/.env
 server/client_secret.json
+__pycache__/
+*.pyc
+db.sqlite3
