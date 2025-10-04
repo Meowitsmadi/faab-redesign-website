@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import logo from "../assets/pics/ApostolateLogo.png";
 
 export default function Navbar() {
   return (
@@ -6,9 +7,20 @@ export default function Navbar() {
       <div className="container-fluid">
 
         {/* TODO: logo placeholder*/}
-        <div className="navbar-brand" style={{ width: '120px', height: '40px', backgroundColor: '#ddd' }}>
+        {/* <div className="navbar-brand" style={{ width: '120px', height: '40px', backgroundColor: '#ddd' }}>
           Logo 
-        </div>
+        </div> */}
+
+        <Link to="/" className="navbar-brand d-flex align-items-center gap-2">
+        <img
+          src={logo}
+          alt="FAAB logo"
+          style={{ height: 40, width: "auto", objectFit: "contain" }}
+          className="img-fluid"
+        />
+        <span className="fw-semibold d-none d-sm-inline fs-6 fst-italic">Filipino Apostolate of the Archdiocese of Boston</span>
+      </Link>
+
 
         {/* Toggler button aligned right */}
         <button
