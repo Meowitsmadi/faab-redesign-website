@@ -92,6 +92,7 @@ class DisplayAllPostsView(APIView):
 
 # Creates a post with a title and content
 class CreateBlogPostView(APIView):
+    # Only users logged into the admin view AND user.is_staff = True can post blogs
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
 
