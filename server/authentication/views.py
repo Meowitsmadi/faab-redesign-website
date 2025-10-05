@@ -5,6 +5,10 @@ from rest_framework.permissions import IsAdminUser # user.is_staff = True
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
 
 class AdminLoginView(APIView):
     def post(self, request):
@@ -22,4 +26,15 @@ class AdminLoginView(APIView):
         else:
             return Response({"Invalid admin login credentials"}, status=400)
 
+class AdminLogoutView(APIView):
+    permission_classes = [IsAdminUser]
+    def post(self, request):
+        try:
+            print("Refresh token:", )
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response(status=205)
+        except Exception as e:
+            return Response(status=400)
 
