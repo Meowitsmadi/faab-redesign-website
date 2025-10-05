@@ -66,3 +66,50 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* FAAB Global Variables & Utilities */
+:root{
+  --navy:#052A4E;
+  --light-blue:#BED6EE;
+  --gold:#FFC000;
+  --peach:#FFDAA6;
+  --white:#FFFFFF;
+  --text:#17202A;
+  --maxw:1200px;
+  --radius:16px;
+  --shadow:0 6px 20px rgba(0,0,0,.08);
+}
+
+/* Layout helper for consistent page width */
+.container{max-width:var(--maxw); margin-inline:auto; padding-inline:20px}
+
+/* Spacer for a fixed navbar */
+.nav-spacer{height:72px}
+
+/* Reusable buttons for CTAs (hero + footer login) */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:.7rem 1rem; border-radius:12px; border:1px solid transparent;
+  font-weight:600; cursor:pointer; transition:transform .06s ease, box-shadow .2s ease;
+}
+.btn:active{transform:translateY(1px)}
+.btn-primary{background:var(--gold)}
+.btn-primary:hover{box-shadow:var(--shadow)}
+.btn-ghost{background:transparent; border-color:rgba(255,255,255,.25); color:#fff}
+
+/* Optional: if Vite's starter body-centering bothers layout later, you can neutralize it:
+body{display:block; place-items:unset; min-height:auto;}
+*/
+
+/* Override Vite starter constraints so hero can be full-bleed */
+#root { 
+  max-width: none;
+  padding: 0;
+  text-align: initial;
+}
+
+/* Optional: ensure route wrapper doesn't add gutters */
+.page {
+  max-width: none;
+  padding: 0;
+}

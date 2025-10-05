@@ -40,3 +40,79 @@
 .read-the-docs {
   color: #888;
 }
+
+/*  Landing Banner */
+.hero{
+  position:relative;
+  width:100%;
+  min-height:48vh;
+  max-height:70vh;
+  overflow:hidden;
+}
+.hero-img{
+  width:100%;
+  height:70vh;
+  object-fit:cover;
+  object-position:center 18%;
+  display:block;
+  filter:saturate(1.05);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(5, 42, 78, 0.3) 0%,
+    rgba(5, 42, 78, 0.55) 45%,
+    rgba(5, 42, 78, 0.65) 100%
+  );
+  color: #fff;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;   
+  text-align: center;
+  padding: 6vh 0 24px;  
+}
+
+
+.hero .container{
+  text-align:center;
+}
+.hero-cta{
+  display:flex;
+  gap:.6rem;
+  flex-wrap:wrap;
+  justify-content:center; 
+}
+
+/*  Footer  */
+.faab-footer{
+  border-top:1px solid #eef2f7;
+  background:#f9fbff;
+  padding:28px 0;
+  margin-top:24px;
+}
+.footer-inner{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  flex-wrap:wrap;
+  text-align:center;
+}
+.footer-copy{
+  margin:0;
+  color:#445567;
+}
+.login-prompt{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:.5rem;
+}
+
+/*Adjusts the title for phone screens */
+@media (max-width: 520px){
+  .hero h1{ font-size: clamp(1.6rem, 6vw, 2.2rem); }
+}
