@@ -53,6 +53,9 @@ export default function Navbar() {
             <li className="nav-item">
               <Link className="nav-link" to="/blog-archive">Blog Archive</Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/members">Members</Link>
+            </li>
             {/* TODO: gallery placeholder. not sure if we're combining or keeping pics/vids split */}
             <li className="nav-item">
               <Link className="nav-link" to="/gallery">Gallery</Link>

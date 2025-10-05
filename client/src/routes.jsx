@@ -5,6 +5,7 @@ import AboutUs from "./components/pages/AboutUs";
 import Schedule from "./components/pages/Schedule";
 import Contact from "./components/pages/Contact";
 import BlogArchive from "./components/pages/BlogArchive";
+import Members from "./components/pages/Members"; 
 
 const routes = [
     {
@@ -17,6 +18,7 @@ const routes = [
             { path: "/schedule", element: <Schedule /> },
             { path: "/contact", element: <Contact /> },
             { path: "/blog-archive", element: <BlogArchive /> },
+            { path: "/members", element: <Members /> },
             // BELOW IS PLACEHOLDER. NOT SURE IF WE'RE COMBINING PICS + VIDS
             // { path: "/gallery", element: <Gallery /> }, 
         ],
