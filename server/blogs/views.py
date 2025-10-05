@@ -89,6 +89,8 @@ class DisplayAllPostsView(APIView):
                 "id": post.get("id"),
                 "title": post.get("title"),
                 "content": content_text,
+                "author": post.get("author").get("displayName"),
+                "published": post.get("published")
             })
 
         return Response(result)
