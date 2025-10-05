@@ -119,7 +119,7 @@ class SearchForPostView(APIView):
 # ----- Google Authorization Needed -----
 
 class CreateBlogPostView(APIView):
-    # authentication_classes = [JWTAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
     def post(self, request):
         user = request.user
@@ -145,6 +145,7 @@ class CreateBlogPostView(APIView):
         return Response({"status": "success", "post": post}, status=201)
     
 class DeletePostView(APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
     def delete(self, request, post_id):
         user = request.user
@@ -164,6 +165,7 @@ class DeletePostView(APIView):
         return Response({"status": "success",}, status=204)
 
 class UpdatePostView(APIView):
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
     def patch(self, request, post_id):
         user = request.user
