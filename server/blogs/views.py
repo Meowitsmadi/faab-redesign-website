@@ -69,10 +69,10 @@ class GoogleOAuthView(APIView):
 
         return redirect('/blog/create/') # change later on to the admin view to create post
 
-# Displays all posts from a blog using the blog id
+# # ----- Google Authorization Not Needed -----
+
 class DisplayAllPostsView(APIView):
     permission_classes = [AllowAny]
-
     def get(self, request):
         service = build("blogger", "v3", developerKey=API_KEY)
 
@@ -90,12 +90,37 @@ class DisplayAllPostsView(APIView):
 
         return Response(result)
 
-# Creates a post with a title and content
+class SearchForPostView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request):
+        service = build("blogger", "v3", developerKey=API_KEY)
+        query = "butterflies" # switch to take in user input later
+        search_results = service.posts().search(
+            blogId=BLOG_ID, 
+            q=query, 
+            orderBy="PUBLISHED").execute()
+        
+        result = []
+        for post in search_results.get("items", []):
+            content_html = post.get("content", "")
+            # Parse HTML and extract text
+            content_text = BeautifulSoup(content_html, "html.parser").get_text()
+            result.append({
+                "id": post.get("id"),
+                "title": post.get("title"),
+                "content": content_text,
+            })
+
+        if result:
+            return Response(result)
+        else:
+            return Response({"message": "No posts found"})
+
+# ----- Google Authorization Needed -----
+
 class CreateBlogPostView(APIView):
-    # Only users logged into the admin view AND user.is_staff = True can post blogs
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAdminUser]
-
     def post(self, request):
         user = request.user
         credentials = get_blogger_creds(user)
@@ -119,8 +144,45 @@ class CreateBlogPostView(APIView):
             return Response({"error": str(e)}, status=400)
         return Response({"status": "success", "post": post}, status=201)
     
-# class SearchForPostView(APIView):
+class DeletePostView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+    def delete(self, request, post_id):
+        user = request.user
+        credentials = get_blogger_creds(user)
 
-# class DeletePostView(APIView):
+        if not credentials:
+            return redirect("/blog/auth/")
 
-# class UpdatePostView(APIView):
+        service = build("blogger", "v3", credentials=credentials)
+        try:
+            service.posts().delete(
+                blogId=BLOG_ID, 
+                postId=post_id, 
+                useTrash=True).execute()
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        return Response({"status": "success",}, status=204)
+
+class UpdatePostView(APIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAdminUser]
+    def patch(self, request, post_id):
+        user = request.user
+        credentials = get_blogger_creds(user)
+
+        if not credentials:
+            return redirect("/blog/auth/")
+
+        service = build("blogger", "v3", credentials=credentials)
+        data = request.data
+
+        try:
+            service.posts().patch(
+                blogId=BLOG_ID,
+                postId=post_id,
+                body=data
+            ).execute()
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        return Response({"status": "success",}, status=200)
