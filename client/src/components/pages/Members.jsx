@@ -5,49 +5,49 @@ const Members = () => {
   const members = [
     {
       section: "Chaplain",
-      people: [{ name: "Father Peru Dayag, SVD", initials: "PD" }],
+      people: [{ name: "Father Peru Dayag, SVD", initials: "PD", image: "adobo.jpg" }],
     },
     {
       section: "Board of Advisors",
       subtitle: "Former Chairpersons of the Apostolate",
       people: [
-        { name: "Johnny Manuel", initials: "JM" },
-        { name: "Jenny Aying", initials: "JA" },
-        { name: "Meynard Gutierrez", initials: "MG" },
-        { name: "Gracita Chiefe", initials: "GC" },
-        { name: "Manuel Paradela", initials: "MP" },
+        { name: "Johnny Manuel", initials: "JM", image: "afritada.jpg" },
+        { name: "Jenny Aying", initials: "JA", image: "bulalo.jpg" },
+        { name: "Meynard Gutierrez", initials: "MG", image: "caldereta.jpg" },
+        { name: "Gracita Chiefe", initials: "GC", image: "menudo.jpg" },
+        { name: "Manuel Paradela", initials: "MP", image: "kbl.jpg" },
       ],
     },
     {
       section: "Finance Committee",
       people: [
-        { name: "Priscilla Cruz", initials: "PC", role: "Treasurer" },
-        { name: "Gracita Chiefe", initials: "GC", role: "Treasurer" },
-        { name: "July Afable", initials: "JA", role: "Auditor" },
+        { name: "Priscilla Cruz", initials: "PC", role: "Treasurer", image: "lumpia.jpg" },
+        { name: "Gracita Chiefe", initials: "GC", role: "Treasurer", image: "menudo.jpg"},
+        { name: "July Afable", initials: "JA", role: "Auditor", image: "palabok.jpg" },
       ],
     },
     {
       section: "Executive Council — North Shore",
       people: [
-        { name: "Annie Talaid", initials: "AT", role: "Coordinator" },
-        { name: "Jeffrey Pagulong", initials: "JP", role: "Asst. Coordinator" },
-        { name: "Meynard Gutierrez", initials: "MG", role: "Secretary" },
-        { name: "Crispina Gutierrez", initials: "CG", role: "Finance Team" },
-        { name: "Kaye Vito", initials: "KV", role: "Head of Liturgy" },
-        { name: "Pearl Brault", initials: "PB", role: "Faith Formation" },
-        { name: "Jun Cruz", initials: "JC", role: "Outreach" },
+        { name: "Annie Talaid", initials: "AT", role: "Coordinator", image: "pancit.jpg" },
+        { name: "Jeffrey Pagulong", initials: "JP", role: "Asst. Coordinator", image: "pinakbet.jpg" },
+        { name: "Meynard Gutierrez", initials: "MG", role: "Secretary", image: "caldereta.jpg" },
+        { name: "Crispina Gutierrez", initials: "CG", role: "Finance Team", image: "pritongbangus.jpg" },
+        { name: "Kaye Vito", initials: "KV", role: "Head of Liturgy", image: "relyenongbangus.jpg" },
+        { name: "Pearl Brault", initials: "PB", role: "Faith Formation", image: "sinigang.jpg" },
+        { name: "Jun Cruz", initials: "JC", role: "Outreach", image: "tapsilog.jpg" },
       ],
     },
     {
       section: "Executive Council — South Shore / Central",
       people: [
-        { name: "John Manuel", initials: "JM", role: "Coordinator" },
-        { name: "Loreta Borneo", initials: "LB", role: "Asst. Coordinator" },
-        { name: "Alpha Cattaneo", initials: "AC", role: "Secretary" },
-        { name: "Rudy Hermosa", initials: "RH", role: "Finance Team" },
-        { name: "Ross Mangilog", initials: "RM", role: "Head of Liturgy" },
-        { name: "Lisa Paradela", initials: "LP", role: "Faith Formation" },
-        { name: "Salome Afable", initials: "SA", role: "Outreach" },
+        { name: "John Manuel", initials: "JM", role: "Coordinator", image: "afritada.jpg" },
+        { name: "Loreta Borneo", initials: "LB", role: "Asst. Coordinator", image: "tinola.jpg" },
+        { name: "Alpha Cattaneo", initials: "AC", role: "Secretary", image: "tortangtalong.jpg" },
+        { name: "Rudy Hermosa", initials: "RH", role: "Finance Team", image: "bibingka.jpg" },
+        { name: "Ross Mangilog", initials: "RM", role: "Head of Liturgy", image: "bukopandan.jpg" },
+        { name: "Lisa Paradela", initials: "LP", role: "Faith Formation", image: "halohalo.jpg" },
+        { name: "Salome Afable", initials: "SA", role: "Outreach", image: "puto.jpg" },
       ],
     },
   ];
@@ -71,10 +71,10 @@ const Members = () => {
               <div className="col-6 col-sm-4 col-md-3 col-lg-2 d-flex" key={i}>
                 <div className="card text-center shadow-sm w-100">
                   <div className="card-body d-flex flex-column align-items-center">
-                    <div className="avatar placeholder rounded-circle mb-2">
-                      {/* If you add photos later, replace this span with an <img> */}
-                      <span className="initials">{person.initials}</span>
+                    <div className="avatar rounded-circle mb-2 overflow-hidden">
+                      <img src={`/assets/members/${person.image}`} alt={person.name} className="img-fluid"/>
                     </div>
+
                     <div className="fw-semibold small name">{person.name}</div>
                     {person.role && (
                       <div className="text-muted small">{person.role}</div>
