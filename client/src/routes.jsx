@@ -7,6 +7,7 @@ import Contact from "./components/pages/Contact";
 import BlogArchive from "./components/pages/BlogArchive";
 import Login from "./components/pages/Login";
 import Members from "./components/pages/Members"; 
+import Gallery from "./components/pages/Gallery"; 
 
 const routes = [
     {
@@ -20,8 +21,7 @@ const routes = [
             { path: "/contact", element: <Contact /> },
             { path: "/blog-archive", element: <BlogArchive /> },
             { path: "/members", element: <Members /> },
-            // BELOW IS PLACEHOLDER. NOT SURE IF WE'RE COMBINING PICS + VIDS
-            // { path: "/gallery", element: <Gallery /> }, 
+            { path: "/gallery", element: <Gallery /> }, 
             { path: "/login", element: <Login /> },
         ],
     }

@@ -1,5 +1,4 @@
-import React from "react";
-import "./Members.css"; 
+import "../../styles/Members.css"; 
 
 const Members = () => {
   const members = [

@@ -1,0 +1,26 @@
+
+.blog-post {
+    aspect-ratio: 1 / 1;
+    max-width: 500px;
+    width: 100%;
+    background-color: #efddb0;
+}
+
+/* For tablets and mobile devices */
+@media (max-width: 768px) {
+  .blog-post {
+    width: 90%;            
+    max-width: 400px; 
+  }
+}
+
+@media (max-width: 480px) {
+  .blog-post {
+    width: 90%;             
+    max-width: 300px;       
+  }
+}
+
+.blog-post h2 {
+    color: #b60808;
+}

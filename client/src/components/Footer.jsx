@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Login from "./pages/Login";
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const navigate = useNavigate();
@@ -14,17 +14,39 @@ const Footer = () => {
   };
 
   useEffect(() => {
+
+    const checkAuthStatus = () => {
       const token = localStorage.getItem("access_token");
-      if (token) setIsAdmin(true);
-    }, []);
+      if (token) {
+        setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
+      }
+    };
+
+    checkAuthStatus();
+
+    // Listen for changes in localStorage
+    const storageListener = () => {
+      checkAuthStatus()
+    };
+    window.addEventListener('storage', storageListener);
+
+    return () => {
+      window.removeEventListener('storage', storageListener);
+    };
+  }); // remove [] dependency so this is ran every component re-renders 
+    
 
   return (
-    <div>
-      <div>Footer</div>
-      <Login />
-      {isAdmin && <button onClick={handleLogout}>Log Out</button>}
+    <div className="bg-light">
+      {!isAdmin ? (
+        <Link to="/login">Login</Link>
+      ) : (
+        <button onClick={handleLogout}>Log Out</button>
+      )}
     </div>
-  )
+  );
 }
 
 export default Footer

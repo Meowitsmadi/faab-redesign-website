@@ -12,7 +12,6 @@ const Home = () => {
 
   return (
     <div>
-      <div>Home</div>
       {isAdmin && <CreatePostForm />}
       {/* <CreatePostForm /> */}
       <Posts />

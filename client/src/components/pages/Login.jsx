@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;;
 
@@ -7,6 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,8 +38,7 @@ export default function Login() {
       localStorage.setItem('refresh_token', data.refresh);
 
       setLoading(false);
-      alert('Login successful! Welcome admin.');
-      // Optionally redirect or update app state here
+      navigate('/');
     } catch (err) {
       setError('Network error, please try again.');
       setLoading(false);
