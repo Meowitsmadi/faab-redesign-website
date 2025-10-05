@@ -1,51 +1,80 @@
-import { useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../../assets/pics/ApostolateLogo.png';
+import { useEffect, useState } from "react";
 
-export default function Contact(){
-  //Set the tab title
-  useEffect(() => {document.title = "Contact | FAAB"; }, [])
-
+export default function Contact() {
+  useEffect(() => {
+    document.title = "Contact | FAAB";
+  }, []);
 
   const [form, setForm] = useState({
-    firstName: "", lastName: "", email: "", message: ""
+    firstName: "",
+    lastName: "",
+    email: "",
+    message: "",
   });
+  const [notice, setNotice] = useState("");
+
+  const SUPPORT_EMAIL = "Manpards@gmail.com"; // where emails will be sent
+
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
   const onSubmit = (e) => {
     e.preventDefault();
-    alert("Thanks! (wire this to the backend next)");
+    setNotice("");
+
+    if (!form.email || !form.message) {
+      setNotice("Email and message are required.");
+      return;
+    }
+
+    const subject = `Website contact: ${`${form.firstName} ${form.lastName}`.trim()}`;
+    const body = `From: ${form.firstName} ${form.lastName} <${form.email}>\n\n${form.message}`;
+
+    // Try Gmail compose in a new tab
+    const url = new URL("https://mail.google.com/mail/");
+    url.searchParams.set("view", "cm");
+    url.searchParams.set("fs", "1");
+    url.searchParams.set("to", SUPPORT_EMAIL);
+    url.searchParams.set("su", subject);
+    url.searchParams.set("body", body);
+
+    const popup = window.open(url.toString(), "_blank", "noopener,noreferrer");
+
+    // Fallback to mailto if Gmail popup blocked or user not signed in
+    if (!popup) {
+      window.location.href =
+        `mailto:${SUPPORT_EMAIL}` +
+        `?subject=${encodeURIComponent(subject)}` +
+        `&body=${encodeURIComponent(body)}`;
+    }
+
+    setNotice("Opening your email app…");
   };
 
-  // inline style tokens
+  // styling
   const accent = "#052a4e";
   const border = "rgba(189, 168, 155, 1)";
-
   const styles = {
     section: { padding: "1.5rem 0" },
     brandText: { color: accent, fontStyle: "italic" },
-    input: {
-      border: `1px solid ${border}`,
-      borderRadius: 0,
-      background: "#fff"
-    },
+    input: { border: `1px solid ${border}`, borderRadius: 0, background: "#fff" },
     textarea: {
       border: `1px solid ${border}`,
       borderRadius: 0,
       background: "#fff",
-      minHeight: 140
+      minHeight: 140,
     },
     button: {
       background: accent,
       border: `1px solid ${accent}`,
       color: "#fff",
       borderRadius: 0,
-      padding: "0.5rem 1rem"
-    }
+      padding: "0.5rem 1rem",
+    },
   };
 
   return (
     <div className="container" style={styles.section}>
-      {/* header (matches About style) */}
+      {/* header */}
       <header className="text-center py-4 mb-4">
         <h1 className="display-5 fw-semibold mb-2">Contact Us</h1>
         <h3 style={styles.brandText}>Get in Touch</h3>
@@ -54,15 +83,15 @@ export default function Contact(){
 
       {/* 2-column layout */}
       <div className="row g-5 align-items-start">
-        {/* left copy */}
+        {/* left side */}
         <div className="col-12 col-lg-5">
           <p className="text-muted">
             If you have any inquiries or concerns, please use the contact form.
           </p>
           <div className="small">
             <div className="mb-1">Email</div>
-            <a href="mailto:Manpards@gmail.com" className="link-body-emphasis">
-              Manpards@gmail.com
+            <a href={`mailto:${SUPPORT_EMAIL}`} className="link-body-emphasis">
+              {SUPPORT_EMAIL}
             </a>
           </div>
         </div>
@@ -72,7 +101,9 @@ export default function Contact(){
           <form onSubmit={onSubmit} noValidate>
             <div className="row g-3">
               <div className="col-12 col-md-6">
-                <label htmlFor="firstName" className="form-label">First Name</label>
+                <label htmlFor="firstName" className="form-label">
+                  First Name
+                </label>
                 <input
                   id="firstName"
                   name="firstName"
@@ -85,7 +116,9 @@ export default function Contact(){
               </div>
 
               <div className="col-12 col-md-6">
-                <label htmlFor="lastName" className="form-label">Last Name</label>
+                <label htmlFor="lastName" className="form-label">
+                  Last Name
+                </label>
                 <input
                   id="lastName"
                   name="lastName"
@@ -114,7 +147,9 @@ export default function Contact(){
               </div>
 
               <div className="col-12">
-                <label htmlFor="message" className="form-label">Message</label>
+                <label htmlFor="message" className="form-label">
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -131,11 +166,21 @@ export default function Contact(){
                   Send
                 </button>
               </div>
+
+              {notice && (
+                <p
+                  className="mt-3"
+                  style={{
+                    color: notice.includes("Opening") ? "green" : "crimson",
+                  }}
+                >
+                  {notice}
+                </p>
+              )}
             </div>
           </form>
         </div>
       </div>
     </div>
   );
-
 }
