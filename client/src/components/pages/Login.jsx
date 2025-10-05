@@ -14,7 +14,7 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/auth/token/`, {
+      const res = await fetch(`${API_BASE_URL}/auth/admin-login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

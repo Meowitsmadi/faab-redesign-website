@@ -76,7 +76,10 @@ class DisplayAllPostsView(APIView):
     def get(self, request):
         service = build("blogger", "v3", developerKey=API_KEY)
 
-        posts = service.posts().list(blogId=BLOG_ID, maxResults=5).execute()
+        posts = service.posts().list(
+            blogId=BLOG_ID,
+            maxResults=5).execute()
+
         result = []
         for post in posts.get("items", []):
             content_html = post.get("content", "")
@@ -94,7 +97,7 @@ class SearchForPostView(APIView):
     permission_classes = [AllowAny]
     def get(self, request):
         service = build("blogger", "v3", developerKey=API_KEY)
-        query = "butterflies" # switch to take in user input later
+        query = request.query_params.get("q")
         search_results = service.posts().search(
             blogId=BLOG_ID, 
             q=query, 
@@ -114,7 +117,7 @@ class SearchForPostView(APIView):
         if result:
             return Response(result)
         else:
-            return Response({"message": "No posts found"})
+            return Response([], status=200)
 
 # ----- Google Authorization Needed -----
 
