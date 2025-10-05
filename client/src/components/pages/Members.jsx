@@ -45,7 +45,7 @@ const Members = () => {
         { name: "Loreta Borneo", initials: "LB", role: "Asst. Coordinator", image: "tinola.jpg" },
         { name: "Alpha Cattaneo", initials: "AC", role: "Secretary", image: "tortangtalong.jpg" },
         { name: "Rudy Hermosa", initials: "RH", role: "Finance Team", image: "bibingka.jpg" },
-        { name: "Ross Mangilog", initials: "RM", role: "Head of Liturgy", image: "bukopandan.jpg" },
+        { name: "Ross Mangilog", initials: "RM", role: "Head of Liturgy", image: "bukopandan.png" },
         { name: "Lisa Paradela", initials: "LP", role: "Faith Formation", image: "halohalo.jpg" },
         { name: "Salome Afable", initials: "SA", role: "Outreach", image: "puto.jpg" },
       ],
