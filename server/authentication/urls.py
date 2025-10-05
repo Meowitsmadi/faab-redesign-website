@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from .views import *
 
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -7,7 +7,8 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-     path('admin-login/', views.AdminLoginView.as_view(), name ='admin-login'),
-     path('token/', TokenObtainPairView.as_view(), name ='token-obtain_pair'),
+     path('admin-login/', AdminLoginView.as_view(), name ='admin-login'),
+     path('admin-logout/', AdminLogoutView.as_view(), name='admin-logout'),
+    #  path('token/', TokenObtainPairView.as_view(), name ='token-obtain_pair'),
      path('token/refresh/', TokenRefreshView.as_view(), name ='token-refresh'),
 ]

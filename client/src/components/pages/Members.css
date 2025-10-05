@@ -1,0 +1,41 @@
+.members-page {
+  background: #fff;               
+}
+
+/* Section spacing/heading harmony */
+.members-page section { margin-top: 1rem; }
+.members-page h2 { letter-spacing: .2px; }
+
+/* Card */
+.members-page .card {
+  border-radius: 12px;
+  border-color: #e9ecef;
+}
+
+/* Placeholder avatar (swap with <img> later) */
+.members-page .avatar {
+  width: 96px;
+  height: 96px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f4f7;            
+  border: 1px solid #e5e7eb;
+}
+
+.members-page .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 999px;
+}
+
+.members-page .initials {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #6b7280;                 
+}
+
+.members-page .name {
+  line-height: 1.25;
+}
