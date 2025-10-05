@@ -5,6 +5,7 @@ import AboutUs from "./components/pages/AboutUs";
 import Schedule from "./components/pages/Schedule";
 import Contact from "./components/pages/Contact";
 import BlogArchive from "./components/pages/BlogArchive";
+import Login from "./components/pages/Login";
 
 const routes = [
     {
@@ -19,6 +20,7 @@ const routes = [
             { path: "/blog-archive", element: <BlogArchive /> },
             // BELOW IS PLACEHOLDER. NOT SURE IF WE'RE COMBINING PICS + VIDS
             // { path: "/gallery", element: <Gallery /> }, 
+            { path: "/login", element: <Login /> },
         ],
     }
 ];
