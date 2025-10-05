@@ -7,16 +7,13 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth import authenticate
 
 class AdminLoginView(APIView):
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAdminUser]
-
     def post(self, request):
         email = request.data.get("email")
         password = request.data.get("password")
         if not email or not password:
             return Response({"error": "Email and password are required"}, status=400)
         user = authenticate(email=email, password=password)
-        if user is not None:
+        if user is not None and user.is_staff:
             refresh = RefreshToken.for_user(user)
             return Response({
                 'refresh': str(refresh),
